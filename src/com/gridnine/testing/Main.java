@@ -1,20 +1,26 @@
 package com.gridnine.testing;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Flight> testFlights = FlightBuilder.createFlights();
-        FlightFilter flightsBeforeCurrentTime = new FlightsBeforeCurrentTime();
-        FlightFilter flightsArrivalBeforeDeparture = new FlightsArrivalBeforeDeparture();
-        FlightFilter flightsLandingMoreTwoHours = new FlightsLandingMoreTwoHours();
+        List<Flight> testFlights = new ArrayList<>(FlightBuilder.createFlights());
+
+        List<FlightFilter> filters = new ArrayList<>(List.of(
+                new FlightsBeforeCurrentTime(),
+                new FlightsArrivalBeforeDeparture(),
+                new FlightsLandingMoreTwoHours()
+        ));
+        System.out.println("Все перелеты:");
         testFlights.forEach(System.out::println);
-        System.out.println("//A flight departing in the past");
-        System.out.println(flightsBeforeCurrentTime.filterFlights(testFlights));
-        System.out.println(" //A flight that departs before it arrives");
-        System.out.println(flightsArrivalBeforeDeparture.filterFlights(testFlights));
-        System.out.println("//A flight with more than two hours ground time");
-        System.out.println(flightsLandingMoreTwoHours.filterFlights(testFlights));
-        System.out.println();
+        filters.forEach(e -> {
+            System.out.println(e.getFilterName());
+            List<Flight> deletedFlights = new ArrayList<>(e.filterFlights(testFlights));
+            System.out.println(deletedFlights);
+            testFlights.removeAll(deletedFlights);
+        });
+        System.out.println("Все перелеты после фильтрации:");
+        testFlights.forEach(System.out::println);
     }
 }

@@ -7,6 +7,11 @@ import java.util.stream.Collectors;
 
 class FlightsLandingMoreTwoHours implements FlightFilter {
     @Override
+    public String getFilterName() {
+        return "Сегменты, где общее время, проведённое на земле, превышает два часа";
+    }
+
+    @Override
     public List<Flight> filterFlights(List<Flight> flights) {
         return flights.stream()
                 .filter(flight -> {
