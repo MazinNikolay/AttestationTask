@@ -7,15 +7,15 @@ class FlightsArrivalBeforeDeparture implements FlightFilter {
 
     @Override
     public String getFilterName() {
-        return "Сегменты с датой прилёта раньше даты вылета";
+        return "Отфильтрованы сегменты с датой прилёта раньше даты вылета";
     }
 
     @Override
     public List<Flight> filterFlights(List<Flight> flights) {
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
-                        .anyMatch(segment -> segment.getArrivalDate()
-                                .isBefore(segment.getDepartureDate())))
+                        .allMatch(segment -> segment.getArrivalDate()
+                                .isAfter(segment.getDepartureDate())))
                 .collect(Collectors.toList());
     }
 }

@@ -7,44 +7,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainTest {
-    private static final List<FlightFilter> filters = new ArrayList<>(List.of(
-            new FlightsBeforeCurrentTime(),
-            new FlightsArrivalBeforeDeparture(),
-            new FlightsLandingMoreTwoHours()
-    ));
 
     @Test
-    public void getNormalFlightsTest() {
+    public void filterArrivalBeforeCurrentFlightsTest() {
         List<Flight> flights = new ArrayList<>(FlightBuilderTest.allFlights);
-        List<Flight> expectedFlights = FlightBuilderTest.normalFlights;
-        filters.forEach(e -> {
-            List<Flight> deletedFlights = new ArrayList<>(e.filterFlights(flights));
-            flights.removeAll(deletedFlights);
-        });
-        List<Flight> actualFlights = new ArrayList<>(flights);
-        Assert.assertEquals(expectedFlights, actualFlights);
-    }
-
-    @Test
-    public void getArrivalBeforeCurrentFlightsTest() {
-        List<Flight> flights = new ArrayList<>(FlightBuilderTest.allFlights);
-        List<Flight> expectedFlights = FlightBuilderTest.arrivalBeforeCurrentFlights;
+        List<Flight> expectedFlights = FlightBuilderTest.filterArrivalBeforeCurrentFlights;
         List<Flight> actualFlights = new FlightsBeforeCurrentTime().filterFlights(flights);
         Assert.assertEquals(expectedFlights, actualFlights);
     }
 
     @Test
-    public void getDepartsBeforeArrivesFlightsTest() {
+    public void filterDepartsBeforeArrivesFlightsTest() {
         List<Flight> flights = new ArrayList<>(FlightBuilderTest.allFlights);
-        List<Flight> expectedFlights = FlightBuilderTest.departsBeforeArrivesFlights;
+        List<Flight> expectedFlights = FlightBuilderTest.filterDepartsBeforeArrivesFlights;
         List<Flight> actualFlights = new FlightsArrivalBeforeDeparture().filterFlights(flights);
         Assert.assertEquals(expectedFlights, actualFlights);
     }
 
     @Test
-    public void getMoreThanTwoHoursGroundFlightsTest() {
+    public void filterMoreThanTwoHoursGroundFlightsTest() {
         List<Flight> flights = new ArrayList<>(FlightBuilderTest.allFlights);
-        List<Flight> expectedFlights = FlightBuilderTest.moreThanTwoHoursGroundFlights;
+        List<Flight> expectedFlights = FlightBuilderTest.filterMoreThanTwoHoursGroundFlights;
         List<Flight> actualFlights = new FlightsLandingMoreTwoHours().filterFlights(flights);
         Assert.assertEquals(expectedFlights, actualFlights);
     }

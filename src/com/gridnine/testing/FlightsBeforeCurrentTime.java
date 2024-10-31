@@ -9,15 +9,15 @@ class FlightsBeforeCurrentTime implements FlightFilter {
 
     @Override
     public String getFilterName() {
-        return "Сегменты с вылетом до текущего момента времени";
+        return "Отфильтрованы сегменты с вылетом до текущего момента времени";
     }
 
     @Override
     public List<Flight> filterFlights(List<Flight> flights) {
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
-                        .anyMatch(segment -> segment
-                                .getDepartureDate().isBefore(currentTime)))
+                        .allMatch(segment -> segment.getDepartureDate()
+                                .isAfter(currentTime)))
                 .collect(Collectors.toList());
     }
 }
